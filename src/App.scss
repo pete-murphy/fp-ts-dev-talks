@@ -1,0 +1,16 @@
+.App {
+  max-width: 40rem;
+  width: 90vw;
+  margin: 0 auto;
+
+  header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+  }
+  nav {
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: 1rem;
+  }
+}

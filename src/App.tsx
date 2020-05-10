@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import { Route, Link } from "react-router-dom"
 
-function App() {
+import "src/App.scss"
+import { Example1 } from "src/either/Example1"
+import { Example2 } from "src/either/Example2"
+import { TaskExamples } from "src/task/TaskExamples"
+
+export function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <h1>
+          <code>fp-ts</code> FE Dev Talks Examples
+        </h1>
+        <nav>
+          <Link to="/either/1">Either 1</Link>
+          <Link to="/either/2">Either 2</Link>
+          <Link to="/task">Task</Link>
+        </nav>
       </header>
-    </div>
-  );
-}
 
-export default App;
+      <main>
+        <Route path="/either/1" component={Example1} />
+        <Route path="/either/2" component={Example2} />
+        <Route path="/task" component={TaskExamples} />
+      </main>
+    </div>
+  )
+}
