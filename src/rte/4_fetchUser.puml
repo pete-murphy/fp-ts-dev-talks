@@ -1,0 +1,18 @@
+
+
+skinparam usecase {
+  BackgroundColor<< error >> red
+  BackgroundColor<< success >> green
+}
+
+rectangle fetchUser {
+  (fetch) --> (ApiError)
+  (fetch) --> (successfully return unknown)
+  (successfully return unknown) --> (decode)
+  (decode) --> (DecodeError)
+  (decode) --> (successfully decoded User)
+
+  (successfully decoded User) << success >>
+  (DecodeError) << error >>
+  (ApiError)    << error >>
+}
