@@ -1,0 +1,40 @@
+
+
+
+' const retrieveUser = (userId: string) =>
+'   pipe(
+'     dispatch({type: 'FETCH_USER', payload: userId}),
+'     RTE.chainW(() => invokeFetch(`/api/users/${userId}`)),
+'     RTE.chainW(data => decode(data, UserDecoder)),
+'     RTE.chainW(user => dispatch({type: 'RECEIVED_USER', payload: user}))
+'   )
+
+
+skinparam usecase {
+  BackgroundColor<< error >> red
+  BackgroundColor<< success >> green
+  BackgroundColor<< dependency >> orange
+}
+
+rectangle retrieveUser {
+  (start) --> (dispatch FETCH_USER)
+  (dispatch FETCH_USER) --> (invokeFetch)
+  (invokeFetch) --> (ApiError)
+  (invokeFetch) --> (successfully return unknown)
+  (successfully return unknown) --> (decode)
+  (decode) --> (DecodeError)
+  (decode) --> (successfully decoded User)
+  (successfully decoded User) --> (dispatch RECEIVED_USER)
+  (dispatch RECEIVED_USER) --> (end)
+
+  (ReduxDep_) --> (dispatch RECEIVED_USER)
+  (ReduxDep)  --> (dispatch FETCH_USER)
+  (FetchDep)  --> (invokeFetch)
+
+  (dispatch RECEIVED_USER) << success >>
+  (DecodeError) << error >>
+  (ApiError)    << error >>
+  (ReduxDep_) << dependency >>
+  (ReduxDep)  << dependency >>
+  (FetchDep)  << dependency >>
+}
