@@ -1,6 +1,7 @@
 {
   "name": "fp-ts-dev-talks",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -14,6 +15,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^5.1.0",
     "cross-fetch": "^3.0.4",
+    "fast-check": "^2.2.1",
     "fp-ts": "^2.5.4",
     "io-ts": "^2.2.2",
     "node-sass": "^4.14.1",
