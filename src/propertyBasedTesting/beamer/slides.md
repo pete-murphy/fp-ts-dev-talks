@@ -4,7 +4,17 @@ monofont: SF Mono
 fontsize: 10pt
 ---
 
-# Property based testing
+# Property-based testing
+
+## Property-based testing
+
+**Property-based testing** (also known as **generative testing**)
+
+> 1. Specifying your system under test in terms of properties, where properties describe invariants of the system based on its input and output.
+
+> 2. Testing that those properties hold against a large variety of inputs
+
+--- Oskar Wickstrom (_Property-Based Testing in a Screencast Editor_)
 
 ## GSM-7: A case study
 
@@ -29,12 +39,16 @@ const char7bits = (): fc.Arbitrary<string> =>
   fc.integer(0, 127).map(n => (gsm7.charset as Record<number, string>)[n])
 ```
 
-More examples
+
+
+## More examples
 Show the README: Jest, `query-string` et al.
 
 -->
 
 ## Combining `Arbitrary`s
+
+
 
 ## Things that I've learned
 Would be great to have metrics about this but... don't use `filter` on Arbitraries (EDIT: fine to use filter on Arbitraries, just don't reconstruct arrays on every iteration, stuff like that. Arbitraries generate 100s of tests so, forces you to be mindful about perf)
