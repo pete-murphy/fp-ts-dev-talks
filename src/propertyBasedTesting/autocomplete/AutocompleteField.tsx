@@ -21,15 +21,15 @@ export function AutocompleteField(props: Props) {
     const runQuery = async () => {
       const results = await props.search(query, 10)
 
-      // if (
-      //   !lastQueryRef.current.startsWith(query) &&
-      //   !props.enableBugUnrelatedResults
-      // ) {
-      //   // FIXED BUG:
-      //   // We show results for queries that are unrelated to the latest started query
-      //   // eg.: AZ resolves while we look for QS, we show its results even if totally unrelated
-      //   return
-      // }
+      if (
+        !lastQueryRef.current.startsWith(query) &&
+        !props.enableBugUnrelatedResults
+      ) {
+        // FIXED BUG:
+        // We show results for queries that are unrelated to the latest started query
+        // eg.: AZ resolves while we look for QS, we show its results even if totally unrelated
+        return
+      }
       if (
         lastQueryRef.current.startsWith(lastSuccessfulQueryRef.current) &&
         lastSuccessfulQueryRef.current.length > query.length &&
@@ -38,7 +38,7 @@ export function AutocompleteField(props: Props) {
         // FIXED BUG:
         // We might update results while we already received results
         // for a query less strict than the last this one
-        // eg.: We receice AZ while we already have results for AZE
+        // eg.: We receive AZ while we already have results for AZE
         return
       }
 

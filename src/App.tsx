@@ -7,6 +7,7 @@ import { Example2 } from "src/either/Example2"
 import { TaskExamples } from "src/task/TaskExamples"
 import { TaskEither } from "src/task/4/taskEither"
 import { AutocompleteField } from "src/propertyBasedTesting/autocomplete/AutocompleteField"
+import { search } from "src/propertyBasedTesting/autocomplete/Api"
 
 export function App() {
   return (
@@ -29,7 +30,10 @@ export function App() {
         <Route path="/either/2" component={Example2} />
         <Route path="/task" component={TaskExamples} />
         <Route path="/task-either" component={TaskEither} />
-        <Route path="/property-based-testing" component={AutocompleteField} />
+        <Route
+          path="/property-based-testing"
+          render={() => <AutocompleteField search={search} />}
+        />
       </main>
     </div>
   )
