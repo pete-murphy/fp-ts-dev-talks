@@ -6,6 +6,7 @@ import { Example1 } from "src/either/Example1"
 import { Example2 } from "src/either/Example2"
 import { TaskExamples } from "src/task/TaskExamples"
 import { TaskEither } from "src/task/4/taskEither"
+import { AutocompleteField } from "src/propertyBasedTesting/autocomplete/AutocompleteField"
 
 export function App() {
   return (
@@ -18,7 +19,8 @@ export function App() {
           <Link to="/either/1">Either 1</Link>
           <Link to="/either/2">Either 2</Link>
           <Link to="/task">Task</Link>
-          <Link to="/taskeither">TaskEither</Link>
+          <Link to="/task-either">TaskEither</Link>
+          <Link to="/property-based-testing">Property Based Testing</Link>
         </nav>
       </header>
 
@@ -26,7 +28,8 @@ export function App() {
         <Route path="/either/1" component={Example1} />
         <Route path="/either/2" component={Example2} />
         <Route path="/task" component={TaskExamples} />
-        <Route path="/taskeither" component={TaskEither} />
+        <Route path="/task-either" component={TaskEither} />
+        <Route path="/property-based-testing" component={AutocompleteField} />
       </main>
     </div>
   )

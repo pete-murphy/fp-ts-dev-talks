@@ -1,5 +1,5 @@
 .App {
-  max-width: 40rem;
+  max-width: 60rem;
   width: 90vw;
   margin: 0 auto;
 
@@ -7,6 +7,9 @@
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: baseline;
+    h1 {
+      font-size: 1rem;
+    }
   }
   nav {
     display: grid;
