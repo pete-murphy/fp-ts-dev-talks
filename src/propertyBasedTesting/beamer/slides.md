@@ -105,7 +105,7 @@ pipe(
 
 . . .
 
-...but there is a `flatMap`
+...but there is a `chain`
 
 ## Type classes
 
@@ -118,30 +118,39 @@ A more general `Array.prototype.every` that works on _all_ `Foldable`s
 
 (`packages/monorail/src/sharedHelpers/fp-ts-ext/__tests__/Foldable.jest.ts`)
 
+## In summary
+
+Summary of common scenarios I've come across:
+
+- Testing some thing with obvious algebraic properties
+
+- Encoding/decoding (or parsing/formatting)
+
+- Reference implementation (oracle)
+
+More examples here:
+
+- [Choosing properties for property-based testing (Scott Wlaschin)](https://fsharpforfunandprofit.com/posts/property-based-testing-2/)
+
 ## GSM-7: A case study
 
 Text encoding for SMS that packs a 7-bit character set into 8-bit bytes (so a 140-byte text message can contain 160 characters)
 
 Wikipedia page: https://en.wikipedia.org/wiki/GSM_03.38
 
+An encoding/decoding pair fails _rarely_, and there is no solution for it
 
 ## More resources
 
 ### Videos
 
-- [Code Checking Automation - Computerphile (with John Hughes, author of `QuickCheck`)](https://www.youtube.com/watch?v=AfaNEebCDos)
+- [Code Checking Automation - Computerphile](https://www.youtube.com/watch?v=AfaNEebCDos) (with John Hughes, author of `QuickCheck`, and uses the GSM-7 encoding as an example)
 
-- [The Magic of Generative Testing: Fast-Check in JavaScript (lightning talk by Gabriel Lebec)](https://www.youtube.com/watch?v=a2J_FSkxWKo)
+- [The Magic of Generative Testing: Fast-Check in JavaScript](https://www.youtube.com/watch?v=a2J_FSkxWKo) (lightning talk by Gabriel Lebec, more introductory material)
 
 - [Property-Based Testing for Better Code (Jessica Kerr)](https://www.youtube.com/watch?v=shngiiBfD80)
 
 ### Articles
 
-[Choosing properties for property-based testing (Scott Wlaschin)](https://fsharpforfunandprofit.com/posts/property-based-testing-2/)
+- [Choosing properties for property-based testing (Scott Wlaschin)](https://fsharpforfunandprofit.com/posts/property-based-testing-2/)
 
-## Things that I've learned
-Would be great to have metrics about this but... don't use `filter` on Arbitraries (EDIT: fine to use filter on Arbitraries, just don't reconstruct arrays on every iteration, stuff like that. Arbitraries generate 100s of tests so, forces you to be mindful about perf)
-
-
-
-## 
