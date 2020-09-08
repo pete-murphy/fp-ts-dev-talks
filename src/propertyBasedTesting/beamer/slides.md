@@ -120,13 +120,25 @@ A more general `Array.prototype.every` that works on _all_ `Foldable`s
 
 ## In summary
 
-Summary of common scenarios I've come across:
+Summary of scenarios I've come across where PBT has been effective:
 
-- Testing some thing with obvious algebraic properties
+. . .
+
+- Testing a system that has obvious algebraic properties (e.g., type classes)
+
+. . .
 
 - Encoding/decoding (or parsing/formatting)
 
-- Reference implementation (oracle)
+. . .
+
+- Reference implementation ("test oracle")
+
+. . .
+
+- Handling user string input
+
+. . .
 
 More examples here:
 
@@ -153,4 +165,10 @@ An encoding/decoding pair fails _rarely_, and there is no solution for it
 ### Articles
 
 - [Choosing properties for property-based testing (Scott Wlaschin)](https://fsharpforfunandprofit.com/posts/property-based-testing-2/)
+
+## Other approaches
+
+- Quickstrom: https://quickstrom.io/
+
+- `smallspace`: https://github.com/briancavalier/smallspace
 
