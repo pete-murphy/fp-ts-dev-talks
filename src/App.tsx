@@ -6,12 +6,12 @@ import { Example1 } from "src/either/Example1"
 import { Example2 } from "src/either/Example2"
 import { TaskExamples } from "src/task/TaskExamples"
 import { TaskEither } from "src/task/4/taskEither"
-import { Form } from "src/validation/01-imperative-record"
+import { Validation } from "src/validation/Validation"
 
 export function App() {
   return (
     <div className="App">
-      <header>
+      <header className="main">
         <h1>
           <code>fp-ts</code> FE Dev Talks Examples
         </h1>
@@ -29,7 +29,7 @@ export function App() {
         <Route path="/either/2" component={Example2} />
         <Route path="/task" component={TaskExamples} />
         <Route path="/task-either" component={TaskEither} />
-        <Route path="/validation" component={Form} />
+        <Route path="/validation" component={Validation} />
       </main>
     </div>
   )

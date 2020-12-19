@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useState } from "react"
+import { ChangeEventHandler, useState } from "react"
 
 export const useInput = (
   initialValue: string,
@@ -9,6 +9,3 @@ export const useInput = (
   }
   return [value, onChange]
 }
-
-export const isValidEmail = (str: string) =>
-  str.includes("@") && str.includes(".")
