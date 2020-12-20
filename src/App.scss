@@ -22,14 +22,19 @@
   main {
     display: grid;
     grid-template-rows: auto 1fr;
+    gap: 2rem;
     width: 100%;
   }
 
   section {
     // outline: 1px solid blue;
     display: grid;
-    place-content: center;
+    place-content: flex-start;
     grid-template-columns: 1fr;
     width: 100%;
   }
+}
+
+pre {
+  font-family: "SF Mono", monospace;
 }

@@ -24,11 +24,11 @@ const validate = (state: FormState): E.Either<TODO, ValidatedFormState> =>
   Ap.sequenceS(E.either)({
     username: pipe(
       state.username,
-      E.fromPredicate(NonEmptyString.is, () => "Required"),
+      E.fromPredicate(NonEmptyString.is, () => "Username required"),
     ),
     password: pipe(
       state.password,
-      E.fromPredicate(NonEmptyString.is, () => "Required"),
+      E.fromPredicate(NonEmptyString.is, () => "Password required"),
     ),
   })
 
@@ -40,6 +40,13 @@ export const Form = () => {
 
   return (
     <Container>
+      <p>
+        A first attempt, using Either to validate a simpler form (we removed the
+        password confirmation). The nice thing here is that we're actually able
+        to refine the input type of our form, so the validated result is encoded
+        in the types. But we don't have the correct error type for what we're
+        aiming to do. <em>What is the correct error type?</em> 🤔
+      </p>
       <form>
         <Label>
           Username

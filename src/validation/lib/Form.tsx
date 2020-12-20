@@ -28,22 +28,36 @@ export const Label = styled.label<{ error?: string }>`
 `
 
 export const Container = styled.div`
+  /* outline: 1px solid green; */
   > * {
     /* outline: 1px solid red; */
   }
   > p {
     grid-column: 1 / -1;
+    line-height: 1.4;
+    max-width: 65ch;
+    margin: auto;
   }
+
   display: grid;
-  grid-template-columns: minmax(auto, 30ch) 1fr;
+  grid-template-columns: clamp(20ch, 50%, 30ch) 1fr;
   gap: 4rem;
+
   > form {
     display: flex;
     flex-flow: column;
     gap: 1rem;
   }
-  pre {
-    font-size: 1rem;
-    height: 4rem;
+
+  > div {
+    /* height: 4rem; */
+    overflow: auto;
+    /* outline: 1px solid red; */
+
+    pre {
+      overflow: auto;
+      /* outline: 1px solid blue; */
+      font-size: 1rem;
+    }
   }
 `
