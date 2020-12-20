@@ -32,7 +32,7 @@ declare module "fp-ts/lib/HKT" {
 // Instances
 // -------------------------------------------------------------------------------------
 
-export const v: Apply2<URI> = {
+export const Apply: Apply2<URI> = {
   URI,
   map: (fa, f) => pipe(fa, map(f)),
   ap: (fab, fa) => pipe(fab, ap(fa)),

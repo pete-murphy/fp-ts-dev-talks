@@ -2,47 +2,52 @@ import { intercalate } from "fp-ts/lib/Foldable"
 import { readonlyArray } from "fp-ts/lib/ReadonlyArray"
 import React from "react"
 import { Route } from "react-router"
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import { Form as ApplyExample1 } from "src/validation/1-apply/01-imperative-record"
 import { Form as ApplyExample2 } from "src/validation/1-apply/02-either-record-broken-1"
 import { Form as ApplyExample3 } from "src/validation/1-apply/03-either-record-broken-2"
 import { Form as ApplyExample4 } from "src/validation/1-apply/05-v-record"
-import { Form as ApplyExample5 } from "src/validation/1-apply/06-v-record-refactor"
+import { Form as ApplyExample5 } from "src/validation/1-apply/06-either-record-refactor"
 import styled from "styled-components"
-import { monoidJsx } from "./lib/Monoid"
+import { monoidJsx } from "src/validation/lib/Monoid"
+
+const APPLY_COMPONENTS = [
+  ApplyExample1,
+  ApplyExample2,
+  ApplyExample3,
+  ApplyExample4,
+  ApplyExample5,
+]
 
 export const Validation = () => (
   <>
     <Header>
       <nav>
         <h3>Apply/Applicative</h3>
-        {intercalate(monoidJsx, readonlyArray)(<>|</>, [
-          <Link to="/validation/apply/1">1</Link>,
-          <Link to="/validation/apply/2">2</Link>,
-          <Link to="/validation/apply/3">3</Link>,
-          <Link to="/validation/apply/4">4</Link>,
-          <Link to="/validation/apply/5">5</Link>,
-        ])}
+        {intercalate(monoidJsx, readonlyArray)(
+          <>|</>,
+          APPLY_COMPONENTS.map((_, ix) => (
+            <NavLink to={`/validation/apply/${ix + 1}`}>{ix + 1}</NavLink>
+          )),
+        )}
       </nav>
       <nav>
         <h3>Chain/Monad</h3>
         {intercalate(monoidJsx, readonlyArray)(<>|</>, [
-          <Link to="/validation/chain/1">1</Link>,
+          <NavLink to="/validation/chain/1">1</NavLink>,
         ])}
       </nav>
       <nav>
         <h3>Alt/Alternative</h3>
         {intercalate(monoidJsx, readonlyArray)(<>|</>, [
-          <Link to="/validation/alt/1">1</Link>,
+          <NavLink to="/validation/alt/1">1</NavLink>,
         ])}
       </nav>
     </Header>
     <section>
-      <Route path="/validation/apply/1" component={ApplyExample1} />
-      <Route path="/validation/apply/2" component={ApplyExample2} />
-      <Route path="/validation/apply/3" component={ApplyExample3} />
-      <Route path="/validation/apply/4" component={ApplyExample4} />
-      <Route path="/validation/apply/5" component={ApplyExample5} />
+      {APPLY_COMPONENTS.map((C, ix) => (
+        <Route path={`/validation/apply/${ix + 1}`} component={C} />
+      ))}
     </section>
   </>
 )

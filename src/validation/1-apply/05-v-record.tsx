@@ -24,7 +24,7 @@ type ValidatedFormState = {
 type Err = [keyof FormState, string]
 
 const validate = (state: FormState): V.V<Err, ValidatedFormState> =>
-  Ap.sequenceS(V.v)({
+  Ap.sequenceS(V.Apply)({
     username: pipe(
       state.username,
       V.fromPredicate(NonEmptyString.is, (): Err => ["username", "Required"]),

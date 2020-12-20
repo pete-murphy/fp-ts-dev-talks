@@ -6,6 +6,7 @@ import * as O from "fp-ts/lib/Option"
 import * as RA from "fp-ts/lib/ReadonlyArray"
 import * as T from "fp-ts/lib/Task"
 
+// "Generalizing" over F, which always needs to have kind Type -> Type
 type F<A> = O.Option<A>
 const F = O
 

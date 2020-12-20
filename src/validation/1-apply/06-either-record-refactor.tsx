@@ -14,6 +14,7 @@ import * as RR from "fp-ts/lib/ReadonlyRecord"
 import * as RNEA from "fp-ts/lib/ReadonlyNonEmptyArray"
 import * as Sg from "fp-ts/lib/Semigroup"
 
+// Possible challenge: add an Email field to the form
 type FormState = {
   username: string
   password: string
@@ -26,20 +27,6 @@ type ValidatedFormState = {
 
 type Err = [keyof FormState, string]
 type Errs = RNEA.ReadonlyNonEmptyArray<Err>
-
-const requiredField = <K extends keyof FormState>(
-  key: K,
-  refinement: Refinement<
-    FormState[K],
-    ValidatedFormState[K]
-  > = NonEmptyString.is,
-): Rd.Reader<FormState, E.Either<Errs, ValidatedFormState[K]>> => fs =>
-  pipe(
-    fs[key],
-    E.fromPredicate(refinement, (): Errs => [[key, "Required"]]),
-  )
-
-const ado = Ap.sequenceT(E.getApplicativeValidation(RNEA.getSemigroup<Err>()))
 
 const validate = (
   state: FormState,
@@ -70,16 +57,7 @@ export const Form = () => {
 
   const result = validate({ username, password, passwordConfirmation })
 
-  const errors = pipe(
-    result,
-    E.fold(
-      RR.fromFoldable(
-        Sg.getFirstSemigroup<string>(),
-        RNEA.readonlyNonEmptyArray,
-      ),
-      () => RR.empty,
-    ),
-  )
+  const errors = toFinalFormValidationErrors(result)
 
   return (
     <Container>
@@ -114,3 +92,26 @@ export const Form = () => {
     </Container>
   )
 }
+
+// @TODO - Pete Murphy 2020-12-20 - Convert to library
+
+const requiredField = <K extends keyof FormState>(
+  key: K,
+  refinement: Refinement<
+    FormState[K],
+    ValidatedFormState[K]
+  > = NonEmptyString.is,
+): Rd.Reader<FormState, E.Either<Errs, ValidatedFormState[K]>> => fs =>
+  pipe(
+    fs[key],
+    E.fromPredicate(refinement, (): Errs => [[key, "Required"]]),
+  )
+
+const ado = Ap.sequenceT(E.getApplicativeValidation(RNEA.getSemigroup<Err>()))
+
+const toFinalFormValidationErrors: (
+  result: E.Either<Errs, ValidatedFormState>,
+) => Partial<{ [K in keyof FormState]: string }> = E.fold(
+  RR.fromFoldable(Sg.getFirstSemigroup<string>(), RNEA.readonlyNonEmptyArray),
+  () => RR.empty,
+)

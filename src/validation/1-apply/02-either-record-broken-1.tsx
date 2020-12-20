@@ -21,7 +21,7 @@ type ValidatedFormState = {
 type TODO = any
 
 const validate = (state: FormState): E.Either<TODO, ValidatedFormState> =>
-  Ap.sequenceS(E.either)({
+  Ap.sequenceS(E.Applicative)({
     username: pipe(
       state.username,
       E.fromPredicate(NonEmptyString.is, () => "Username required"),

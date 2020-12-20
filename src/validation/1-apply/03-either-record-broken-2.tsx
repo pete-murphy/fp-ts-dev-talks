@@ -25,7 +25,7 @@ type Err = [keyof FormState, string]
 type FormErrors = RNEA.ReadonlyNonEmptyArray<Err>
 
 const validate = (state: FormState): E.Either<FormErrors, ValidatedFormState> =>
-  Ap.sequenceS(E.either)({
+  Ap.sequenceS(E.Applicative)({
     username: pipe(
       state.username,
       E.fromPredicate(

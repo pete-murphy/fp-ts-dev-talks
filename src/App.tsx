@@ -1,5 +1,5 @@
 import React from "react"
-import { Route, Link } from "react-router-dom"
+import { Route, NavLink } from "react-router-dom"
 
 import "src/App.scss"
 import { Example1 } from "src/either/Example1"
@@ -16,11 +16,11 @@ export function App() {
           <code>fp-ts</code> FE Dev Talks Examples
         </h1>
         <nav>
-          <Link to="/either/1">Either 1</Link>
-          <Link to="/either/2">Either 2</Link>
-          <Link to="/task">Task</Link>
-          <Link to="/task-either">TaskEither</Link>
-          <Link to="/validation">Validation</Link>
+          <NavLink to="/either/1">Either 1</NavLink>
+          <NavLink to="/either/2">Either 2</NavLink>
+          <NavLink to="/task">Task</NavLink>
+          <NavLink to="/task-either">TaskEither</NavLink>
+          <NavLink to="/validation">Validation</NavLink>
         </nav>
       </header>
 

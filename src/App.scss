@@ -39,3 +39,12 @@ pre,
 code {
   font-family: "SF Mono", monospace;
 }
+
+a {
+  color: black;
+  position: relative;
+  &.active {
+    text-decoration: none;
+    font-weight: 700;
+  }
+}
