@@ -7,6 +7,7 @@ import { Form as ApplyExample1 } from "src/validation/1-apply/01-imperative-reco
 import { Form as ApplyExample2 } from "src/validation/1-apply/02-either-record-broken-1"
 import { Form as ApplyExample3 } from "src/validation/1-apply/03-either-record-broken-2"
 import { Form as ApplyExample4 } from "src/validation/1-apply/05-v-record"
+import { Form as ApplyExample5 } from "src/validation/1-apply/06-v-record-refactor"
 import styled from "styled-components"
 import { monoidJsx } from "./lib/Monoid"
 
@@ -20,6 +21,7 @@ export const Validation = () => (
           <Link to="/validation/apply/2">2</Link>,
           <Link to="/validation/apply/3">3</Link>,
           <Link to="/validation/apply/4">4</Link>,
+          <Link to="/validation/apply/5">5</Link>,
         ])}
       </nav>
       <nav>
@@ -40,6 +42,7 @@ export const Validation = () => (
       <Route path="/validation/apply/2" component={ApplyExample2} />
       <Route path="/validation/apply/3" component={ApplyExample3} />
       <Route path="/validation/apply/4" component={ApplyExample4} />
+      <Route path="/validation/apply/5" component={ApplyExample5} />
     </section>
   </>
 )
