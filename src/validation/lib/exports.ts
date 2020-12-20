@@ -1,5 +1,6 @@
 export * from "./ConfirmedPassword"
 export * from "./Email"
 export * from "./Form"
-export * from "./hooks"
 export * from "./Monoid"
+export * from "./PhoneNumber"
+export * from "./hooks"

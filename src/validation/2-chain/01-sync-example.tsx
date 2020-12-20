@@ -66,10 +66,10 @@ export const Form = () => {
         Synchronous example of monadic validation. We need to parse the input
         strings as dates before determining whether (1) the start date is after
         today and (2) the end date is after the start date. Because the
-        subsequent validations (comparing dates) rely on the output of the
-        previous validation (which turns the strings into dates), we are using
-        Either’s Chain instance. <strong>Challenge:</strong> Can we check that
-        the start date is after today without needing to parse the end date?
+        subsequent validations (comparing dates) rely on the output of the first
+        validation (which turns the strings into dates), we are using Either’s
+        Chain instance. <strong>Challenge:</strong> Can we check that the start
+        date is after today without needing to parse the end date?
       </p>
       <form>
         <Label error={errors.startDate}>

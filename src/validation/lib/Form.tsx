@@ -17,6 +17,9 @@ export const Label = styled.label<{ error?: string }>`
     font-size: 1rem;
     background: ${({ error }) => (error ? `#ff000011` : `inherit`)};
   }
+  > span {
+    font-size: 1.2rem;
+  }
   &::after {
     content: ${({ error }) => (error ? `"${error}"` : `" "`)};
     display: block;

@@ -18,7 +18,8 @@ const validate = (state: FormState): FormErrors => {
   }
   if (!state.password) {
     errors.password = "Required"
-  } else if (!state.passwordConfirmation) {
+  }
+  if (!state.passwordConfirmation) {
     errors.passwordConfirmation = "Required"
   } else if (state.passwordConfirmation !== state.password) {
     errors.password = "Passwords must match"
