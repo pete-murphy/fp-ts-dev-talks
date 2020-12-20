@@ -54,9 +54,10 @@ export const Form = () => {
         I think if we want to encode the fact that the collection of errors{" "}
         <em>must be non-empty</em> whenever we end up on the error side of the
         validation, then a NonEmptyArray of some sort seems like a good
-        candidate. That's what we're using here. However, we still don't have
+        candidate. That’s what we’re using here. However, we still don’t have
         the behavior that we want—our NonEmptyArray seems like it can only ever
-        have one element!
+        have one element! To explain that behavior, let’s review
+        Apply/Applicative and Either’s instance thereof.
       </p>
       <form>
         <Label>

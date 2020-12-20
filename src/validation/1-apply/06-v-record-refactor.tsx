@@ -84,10 +84,12 @@ export const Form = () => {
   return (
     <Container>
       <p>
-        Close to the original functionality. Note that there might be multiple
-        errors per field, and because we're using getFirstSemigroup we will only
-        see the first error message. We can change the semigroup instance to get
-        different behavior in the UI.
+        With some further refactors, we’re now using getApplicativeValidation
+        instead of our custom V type, and we’re pretty close to the original
+        functionality. Note that there might be multiple errors per field, and
+        because we’re using getFirstSemigroup we will only see the first error
+        message. We can change the semigroup instance to get different behavior
+        in the UI.
       </p>
       <form>
         <Label error={errors.username}>
