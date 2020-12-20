@@ -42,7 +42,7 @@ export const Form = () => {
         <a href="https://github.com/final-form/react-final-form/blob/master/docs/examples/record-level-validation.md">
           “Record Level Validation” example
         </a>{" "}
-        from the React Final Form docs. We'll endeavor to produce the same shape
+        from the React Final Form docs. We’ll endeavor to produce the same shape
         for the form errors, since our form components know how to display that,
         but using a functional approach with informative types.
       </p>

@@ -42,9 +42,9 @@ export const Form = () => {
     <Container>
       <p>
         A first attempt, using Either to validate a simpler form (we removed the
-        password confirmation). The nice thing here is that we're actually able
+        password confirmation). The nice thing here is that we’re actually able
         to refine the input type of our form, so the validated result is encoded
-        in the types. But we don't have the correct error type for what we're
+        in the types. But we don’t have the correct error type for what we’re
         aiming to do. <em>What is the correct error type?</em> 🤔
       </p>
       <form>

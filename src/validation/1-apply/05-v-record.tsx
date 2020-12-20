@@ -55,7 +55,7 @@ export const Form = () => {
   return (
     <Container>
       <p>
-        Finally, we've got a meaningful type for the output of our validation,
+        Finally, we’ve got a meaningful type for the output of our validation,
         and we can transform it into the record of errors that our form UI knows
         how to display.
       </p>
