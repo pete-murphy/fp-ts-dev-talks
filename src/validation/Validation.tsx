@@ -8,6 +8,7 @@ import { Form as ApplyExample2 } from "src/validation/1-apply/02-either-record-b
 import { Form as ApplyExample3 } from "src/validation/1-apply/03-either-record-broken-2"
 import { Form as ApplyExample4 } from "src/validation/1-apply/05-v-record"
 import { Form as ApplyExample5 } from "src/validation/1-apply/06-either-record-refactor"
+import { Form as ChainExample1 } from "src/validation/2-chain/01-example"
 import styled from "styled-components"
 import { monoidJsx } from "src/validation/lib/Monoid"
 
@@ -18,6 +19,8 @@ const APPLY_COMPONENTS = [
   ApplyExample4,
   ApplyExample5,
 ]
+
+const CHAIN_COMPONENTS = [ChainExample1]
 
 export const Validation = () => (
   <>
@@ -34,7 +37,9 @@ export const Validation = () => (
       <nav>
         <h3>Chain/Monad</h3>
         {intercalate(monoidJsx, readonlyArray)(<>|</>, [
-          <NavLink to="/validation/chain/1">1</NavLink>,
+          CHAIN_COMPONENTS.map((_, ix) => (
+            <NavLink to={`/validation/chain/${ix + 1}`}>{ix + 1}</NavLink>
+          )),
         ])}
       </nav>
       <nav>
@@ -47,6 +52,9 @@ export const Validation = () => (
     <section>
       {APPLY_COMPONENTS.map((C, ix) => (
         <Route path={`/validation/apply/${ix + 1}`} component={C} />
+      ))}
+      {CHAIN_COMPONENTS.map((C, ix) => (
+        <Route path={`/validation/chain/${ix + 1}`} component={C} />
       ))}
     </section>
   </>

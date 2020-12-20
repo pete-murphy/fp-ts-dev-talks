@@ -9,7 +9,6 @@ import { NonEmptyString } from "io-ts-types"
 import { pipe, Refinement } from "fp-ts/lib/function"
 import * as Ap from "fp-ts/lib/Apply"
 import * as E from "fp-ts/lib/Either"
-import * as Rd from "fp-ts/lib/Reader"
 import * as RR from "fp-ts/lib/ReadonlyRecord"
 import * as RNEA from "fp-ts/lib/ReadonlyNonEmptyArray"
 import * as Sg from "fp-ts/lib/Semigroup"
@@ -101,7 +100,7 @@ const requiredField = <K extends keyof FormState>(
     FormState[K],
     ValidatedFormState[K]
   > = NonEmptyString.is,
-): Rd.Reader<FormState, E.Either<Errs, ValidatedFormState[K]>> => fs =>
+): ((fs: FormState) => E.Either<Errs, ValidatedFormState[K]>) => fs =>
   pipe(
     fs[key],
     E.fromPredicate(refinement, (): Errs => [[key, "Required"]]),
