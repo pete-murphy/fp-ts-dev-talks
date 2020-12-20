@@ -40,8 +40,14 @@ const validate = (state: FormState): TE.TaskEither<Errs, ValidatedFormState> =>
       ),
     }),
     // We need to parse the strings as dates, *and* use the output of the
-    // parsing, before we can compare them. This dependency on the previous
-    // return value makes this operation monadic.
+    // parsing, before we can do the following comparisons. This dependency on
+    // the previous return value makes this operation monadic.
+    E.chainFirst(
+      E.fromPredicate(
+        ({ startDate }) => Ord.lt(Ord.ordDate)(new Date(), startDate),
+        (): Errs => [["startDate", "Must be after today"]],
+      ),
+    ),
     E.chain(
       E.fromPredicate(
         ({ startDate, endDate }) => Ord.lt(Ord.ordDate)(startDate, endDate),
@@ -95,7 +101,11 @@ export const Form = () => {
 
   return (
     <Container>
-      <p>TODO: different from</p>
+      <p>
+        Asynchronous example of monadic validation. Builds on the synchronous
+        example, except now we’re doing another “chain”-ed step involving an
+        (imagined) API call.
+      </p>
       <form>
         <LabelAsync
           error={pipe(

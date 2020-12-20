@@ -8,7 +8,8 @@ import { Form as ApplyExample2 } from "src/validation/1-apply/02-either-record-b
 import { Form as ApplyExample3 } from "src/validation/1-apply/03-either-record-broken-2"
 import { Form as ApplyExample4 } from "src/validation/1-apply/05-v-record"
 import { Form as ApplyExample5 } from "src/validation/1-apply/06-either-record-refactor"
-import { Form as ChainExample1 } from "src/validation/2-chain/01-example"
+import { Form as ChainExample1 } from "src/validation/2-chain/01-sync-example"
+import { Form as ChainExample2 } from "src/validation/2-chain/02-async-example"
 import styled from "styled-components"
 import { monoidJsx } from "src/validation/lib/Monoid"
 
@@ -20,7 +21,7 @@ const APPLY_COMPONENTS = [
   ApplyExample5,
 ]
 
-const CHAIN_COMPONENTS = [ChainExample1]
+const CHAIN_COMPONENTS = [ChainExample1, ChainExample2]
 
 export const Validation = () => (
   <>
