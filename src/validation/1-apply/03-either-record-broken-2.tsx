@@ -1,6 +1,6 @@
 /**
- * We have each error associated with a field name but could do better with
- * types (want to enforce that errors are non-empty)
+ * We have encoded that the error case is non-empty, but we're not getting all
+ * errors at once, because Either short-circuits on the first Left
  */
 import * as E from "fp-ts/lib/Either"
 import React from "react"
@@ -8,6 +8,7 @@ import { Container, Label, useInput } from "src/validation/lib/exports"
 import { NonEmptyString } from "io-ts-types"
 import { pipe } from "fp-ts/lib/function"
 import * as Ap from "fp-ts/lib/Apply"
+import * as RNEA from "fp-ts/lib/ReadonlyNonEmptyArray"
 
 type FormState = {
   username: string
@@ -19,9 +20,9 @@ type ValidatedFormState = {
   password: NonEmptyString
 }
 
-type ErrorMessage = string
+type Err = [keyof FormState, string]
 
-type FormErrors = Partial<Record<keyof FormState, ErrorMessage>>
+type FormErrors = RNEA.ReadonlyNonEmptyArray<Err>
 
 const validate = (state: FormState): E.Either<FormErrors, ValidatedFormState> =>
   Ap.sequenceS(E.either)({
@@ -29,14 +30,14 @@ const validate = (state: FormState): E.Either<FormErrors, ValidatedFormState> =>
       state.username,
       E.fromPredicate(
         NonEmptyString.is,
-        (): FormErrors => ({ username: "Required" }),
+        (): FormErrors => [["username", "Required"]],
       ),
     ),
     password: pipe(
       state.password,
       E.fromPredicate(
         NonEmptyString.is,
-        (): FormErrors => ({ password: "Required" }),
+        (): FormErrors => [["password", "Required"]],
       ),
     ),
   })
@@ -49,6 +50,14 @@ export const Form = () => {
 
   return (
     <Container>
+      <p>
+        I think if we want to encode the fact that the collection of errors{" "}
+        <em>must be non-empty</em> whenever we end up on the error side of the
+        validation, then a NonEmptyArray of some sort seems like a good
+        candidate. That's what we're using here. However, we still don't have
+        the behavior that we want—our NonEmptyArray seems like it can only ever
+        have one element!
+      </p>
       <form>
         <Label>
           Username

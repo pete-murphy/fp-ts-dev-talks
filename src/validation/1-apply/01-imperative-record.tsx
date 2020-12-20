@@ -37,12 +37,14 @@ export const Form = () => {
   return (
     <Container>
       <p>
-        Our reference form, which implements imperative-style validation.
-        Example based on React Final Form docs{" "}
+        Our reference form, which implements imperative-style validation. The
+        example is based on{" "}
         <a href="https://github.com/final-form/react-final-form/blob/master/docs/examples/record-level-validation.md">
           “Record Level Validation” example
-        </a>
-        .
+        </a>{" "}
+        from the React Final Form docs. We'll endeavor to produce the same shape
+        for the form errors, since our form components know how to display that,
+        but using a functional approach with informative types.
       </p>
       <form>
         <Label error={errors.username}>

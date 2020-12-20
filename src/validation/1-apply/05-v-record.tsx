@@ -4,7 +4,7 @@
 import React from "react"
 import { Container, Label, useInput } from "src/validation/lib/exports"
 import { NonEmptyString } from "io-ts-types"
-import { identity, pipe } from "fp-ts/lib/function"
+import { pipe } from "fp-ts/lib/function"
 import * as Ap from "fp-ts/lib/Apply"
 import * as V from "src/validation/lib/V"
 import * as RR from "fp-ts/lib/ReadonlyRecord"
@@ -54,6 +54,11 @@ export const Form = () => {
 
   return (
     <Container>
+      <p>
+        Finally, we've got a meaningful type for the output of our validation,
+        and we can transform it into the record of errors that our form UI knows
+        how to display.
+      </p>
       <form>
         <Label error={errors.username}>
           Username
