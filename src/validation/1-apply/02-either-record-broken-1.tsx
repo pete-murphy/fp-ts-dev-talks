@@ -1,10 +1,12 @@
+/**
+ * A first attempt, using Either
+ */
 import * as E from "fp-ts/lib/Either"
 import React from "react"
 import { Container, Label, useInput } from "src/validation/lib/exports"
 import { NonEmptyString } from "io-ts-types"
 import { pipe } from "fp-ts/lib/function"
 import * as Ap from "fp-ts/lib/Apply"
-import * as RNEA from "fp-ts/lib/ReadonlyNonEmptyArray"
 
 type FormState = {
   username: string
@@ -16,25 +18,17 @@ type ValidatedFormState = {
   password: NonEmptyString
 }
 
-type Err = [keyof FormState, string]
+type TODO = any
 
-type FormErrors = RNEA.ReadonlyNonEmptyArray<Err>
-
-const validate = (state: FormState): E.Either<FormErrors, ValidatedFormState> =>
+const validate = (state: FormState): E.Either<TODO, ValidatedFormState> =>
   Ap.sequenceS(E.either)({
     username: pipe(
       state.username,
-      E.fromPredicate(
-        NonEmptyString.is,
-        (): FormErrors => [["username", "Required"]],
-      ),
+      E.fromPredicate(NonEmptyString.is, () => "Required"),
     ),
     password: pipe(
       state.password,
-      E.fromPredicate(
-        NonEmptyString.is,
-        (): FormErrors => [["password", "Required"]],
-      ),
+      E.fromPredicate(NonEmptyString.is, () => "Required"),
     ),
   })
 

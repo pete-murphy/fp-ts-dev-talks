@@ -92,3 +92,9 @@ export function fold<E, A, B>(
 ): (ma: V<E, A>) => B {
   return ma => (isBad(ma) ? onBad(ma.bad) : onOk(ma.ok))
 }
+
+export function getOrElse<E, A>(
+  onBad: (e: RNEA.ReadonlyNonEmptyArray<E>) => A,
+): (ma: V<E, A>) => A {
+  return ma => (isBad(ma) ? onBad(ma.bad) : ma.ok)
+}

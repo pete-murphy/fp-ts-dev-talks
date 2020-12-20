@@ -31,6 +31,9 @@ export const Container = styled.div`
   > * {
     /* outline: 1px solid red; */
   }
+  > p {
+    grid-column: 1 / -1;
+  }
   display: grid;
   grid-template-columns: minmax(auto, 30ch) 1fr;
   gap: 4rem;

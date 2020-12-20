@@ -1,9 +1,15 @@
-import * as E from "fp-ts/lib/Either"
+/**
+ * In which we use our custom V type to accumulate validation errors
+ */
 import React from "react"
 import { Container, Label, useInput } from "src/validation/lib/exports"
 import { NonEmptyString } from "io-ts-types"
-import { pipe } from "fp-ts/lib/function"
+import { identity, pipe } from "fp-ts/lib/function"
 import * as Ap from "fp-ts/lib/Apply"
+import * as V from "src/validation/lib/V"
+import * as RR from "fp-ts/lib/ReadonlyRecord"
+import * as RNEA from "fp-ts/lib/ReadonlyNonEmptyArray"
+import * as Sg from "fp-ts/lib/Semigroup"
 
 type FormState = {
   username: string
@@ -15,17 +21,17 @@ type ValidatedFormState = {
   password: NonEmptyString
 }
 
-type TODO = any
+type Err = [keyof FormState, string]
 
-const validate = (state: FormState): E.Either<TODO, ValidatedFormState> =>
-  Ap.sequenceS(E.either)({
+const validate = (state: FormState): V.V<Err, ValidatedFormState> =>
+  Ap.sequenceS(V.v)({
     username: pipe(
       state.username,
-      E.fromPredicate(NonEmptyString.is, () => "Required"),
+      V.fromPredicate(NonEmptyString.is, (): Err => ["username", "Required"]),
     ),
     password: pipe(
       state.password,
-      E.fromPredicate(NonEmptyString.is, () => "Required"),
+      V.fromPredicate(NonEmptyString.is, (): Err => ["password", "Required"]),
     ),
   })
 
@@ -35,14 +41,25 @@ export const Form = () => {
 
   const result = validate({ username, password })
 
+  const errors = pipe(
+    result,
+    V.fold(
+      RR.fromFoldable(
+        Sg.getFirstSemigroup<string>(),
+        RNEA.readonlyNonEmptyArray,
+      ),
+      () => RR.empty,
+    ),
+  )
+
   return (
     <Container>
       <form>
-        <Label>
+        <Label error={errors.username}>
           Username
           <input value={username} onChange={setUsername} />
         </Label>
-        <Label>
+        <Label error={errors.password}>
           Password
           <input value={password} onChange={setPassword} />
         </Label>

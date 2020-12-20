@@ -36,6 +36,14 @@ export const Form = () => {
 
   return (
     <Container>
+      <p>
+        Our reference form, which implements imperative-style validation.
+        Example based on React Final Form docs{" "}
+        <a href="https://github.com/final-form/react-final-form/blob/master/docs/examples/record-level-validation.md">
+          “Record Level Validation” example
+        </a>
+        .
+      </p>
       <form>
         <Label error={errors.username}>
           Username

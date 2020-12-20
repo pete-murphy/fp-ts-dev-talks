@@ -1,3 +1,6 @@
+/**
+ * A quick detour to review how `sequenceS` / `sequenceT` work under the hood
+ */
 import * as E from "fp-ts/lib/Either"
 import * as O from "fp-ts/lib/Option"
 import * as RA from "fp-ts/lib/ReadonlyArray"

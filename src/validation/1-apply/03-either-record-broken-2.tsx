@@ -1,3 +1,7 @@
+/**
+ * We have each error associated with a field name but could do better with
+ * types (want to enforce that errors are non-empty)
+ */
 import * as E from "fp-ts/lib/Either"
 import React from "react"
 import { Container, Label, useInput } from "src/validation/lib/exports"
