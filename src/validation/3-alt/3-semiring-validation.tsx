@@ -31,6 +31,7 @@ const validate = (state: FormState) =>
       ),
     ),
     V.apFirst(E.fromPredicate(hasNumber, () => [["contain a number"]])(state)),
+    // V.alt(() => E.fromPredicate(beEqualTo("abc"), () => [["be “abc”"]])(state)),
   )
 
 export const Form = () => {
@@ -75,3 +76,4 @@ const hasMixedCase = (str: string) => /[A-Z]/.test(str) && /[a-z]/.test(str)
 const hasSpecialChar = (str: string) =>
   ["!", "%", "$", "*", "@", "^"].some(x => str.includes(x))
 const hasNumber = (str: string) => /\d/.test(str)
+const beEqualTo = (x: string) => (str: string) => x === str
