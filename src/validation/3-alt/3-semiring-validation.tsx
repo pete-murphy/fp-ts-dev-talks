@@ -10,7 +10,7 @@ const validate = (state: FormState) =>
   pipe(
     pipe(
       E.fromPredicate(hasLengthBetween(8, 20), () => [
-        ["be between 8—12 characters"],
+        ["be between 8–12 characters long"],
       ])(state),
       V.apFirst(
         E.fromPredicate(hasMixedCase, () => [
@@ -20,15 +20,17 @@ const validate = (state: FormState) =>
     ),
     V.alt(() =>
       pipe(
-        E.fromPredicate(hasSpecialChar, () => [["between 1 and 3"]])(state),
+        E.fromPredicate(hasSpecialChar, () => [
+          ["contain a special character"],
+        ])(state),
         V.apFirst(
           E.fromPredicate(hasLengthBetween(5, 10), () => [
-            ["contain upper & lower-case letters"],
+            ["be between 5–10 characters long"],
           ])(state),
         ),
       ),
     ),
-    V.apFirst(E.fromPredicate(hasNumber, () => [["have upper case"]])(state)),
+    V.apFirst(E.fromPredicate(hasNumber, () => [["contain a number"]])(state)),
   )
 
 export const Form = () => {
@@ -38,7 +40,7 @@ export const Form = () => {
   const error = pipe(
     result,
     E.fold(
-      xss => xss.map(xs => xs.join(" AND ")).join(" OR "),
+      xss => `Password must ${xss.map(xs => xs.join(" AND ")).join(" OR ")}`,
       () => undefined,
     ),
   )
@@ -47,9 +49,9 @@ export const Form = () => {
     <Container>
       <p>
         Things get interesting with Semiring. Let's say a password must have
-        between 8—12 characters and include upper and lower-case letters, unless
+        between 8–12 characters and include upper and lower-case letters, unless
         it has a special character, in which case it doesn't need mixed case and
-        it can be between 5—10 characters long. All passwords must contain a
+        it can be between 5–10 characters long. All passwords must contain a
         number.
       </p>
       <form>
@@ -69,7 +71,7 @@ const V = pipeable(Sr.getSemiringValidation(Sr.getSemiring<string>()))
 
 const hasLengthBetween = (min: number, max: number) => (str: string) =>
   str.length >= min && str.length <= max
-const hasMixedCase = (str: string) => /A-Z/.test(str) && /a-z/.test(str)
+const hasMixedCase = (str: string) => /[A-Z]/.test(str) && /[a-z]/.test(str)
 const hasSpecialChar = (str: string) =>
   ["!", "%", "$", "*", "@", "^"].some(x => str.includes(x))
-const hasNumber = (str: string) => /0-9/.test(str)
+const hasNumber = (str: string) => /\d/.test(str)
