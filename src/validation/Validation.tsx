@@ -14,6 +14,7 @@ import { Form as ChainExample2 } from "src/validation/2-chain/2-async-example"
 import { Form as AltExample1 } from "src/validation/3-alt/1-simple"
 import { Form as AltExample2 } from "src/validation/3-alt/2-alt-validation"
 import { Form as AltExample3 } from "src/validation/3-alt/3-semiring-validation"
+import { Form as AltExample4 } from "src/validation/3-alt/4-semiring-validation-dsl"
 import styled from "styled-components"
 import { monoidJsx } from "src/validation/lib/Monoid"
 
@@ -28,7 +29,7 @@ const APPLY_COMPONENTS = [
 
 const CHAIN_COMPONENTS = [ChainExample1, ChainExample2]
 
-const ALT_COMPONENTS = [AltExample1, AltExample2, AltExample3]
+const ALT_COMPONENTS = [AltExample1, AltExample2, AltExample3, AltExample4]
 
 export const Validation = () => (
   <>
