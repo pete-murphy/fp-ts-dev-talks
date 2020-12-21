@@ -39,9 +39,8 @@ const requiredField = <K extends keyof FormState>(
     E.fromPredicate(refinement, (): Errs => [[key, "Required"]]),
   )
 
-const ado = Ap.sequenceT(
-  RE.getApplicativeReaderValidation(RNEA.getSemigroup<Err>()),
-)
+const V_ = RE.getApplicativeReaderValidation(RNEA.getSemigroup<Err>())
+const ado = Ap.sequenceT(V_)
 
 const validate: RE.ReaderEither<
   FormState,

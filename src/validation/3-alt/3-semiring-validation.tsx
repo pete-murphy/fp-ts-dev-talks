@@ -2,6 +2,7 @@ import React from "react"
 import { Container, Label, useInput } from "src/validation/lib/exports"
 import * as E from "fp-ts/lib/Either"
 import { pipe, pipeable } from "fp-ts/lib/pipeable"
+import * as E_ from "src/validation/lib/Either.ext"
 import * as Sr from "src/validation/lib/Semiring"
 
 type FormState = string
@@ -35,9 +36,9 @@ const validate = (state: FormState) =>
   )
 
 export const Form = () => {
-  const [contact, setContact] = useInput("")
+  const [password, setPassword] = useInput("")
 
-  const result = validate(contact)
+  const result = validate(password)
   const error = pipe(
     result,
     E.fold(
@@ -58,7 +59,7 @@ export const Form = () => {
       <form>
         <Label error={error}>
           Password
-          <input value={contact} onChange={setContact} />
+          <input value={password} onChange={setPassword} />
         </Label>
       </form>
       <div>
@@ -68,7 +69,7 @@ export const Form = () => {
   )
 }
 
-const V = pipeable(Sr.getSemiringValidation(Sr.getSemiring<string>()))
+const V = pipeable(E_.getSemiringValidation(Sr.getSemiring<string>()))
 
 const hasLengthBetween = (min: number, max: number) => (str: string) =>
   str.length >= min && str.length <= max
