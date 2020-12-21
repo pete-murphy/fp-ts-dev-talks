@@ -3,14 +3,16 @@ import { readonlyArray } from "fp-ts/lib/ReadonlyArray"
 import React from "react"
 import { Route } from "react-router"
 import { NavLink } from "react-router-dom"
-import { Form as ApplyExample1 } from "src/validation/1-apply/01-imperative-record"
-import { Form as ApplyExample2 } from "src/validation/1-apply/02-either-record-broken-1"
-import { Form as ApplyExample3 } from "src/validation/1-apply/03-either-record-broken-2"
-import { Form as ApplyExample4 } from "src/validation/1-apply/05-v-record"
-import { Form as ApplyExample5 } from "src/validation/1-apply/06-either-record-refactor"
-import { Form as ChainExample1 } from "src/validation/2-chain/01-sync-example"
-import { Form as ChainExample2 } from "src/validation/2-chain/02-async-example"
-import { Form as AltExample1 } from "src/validation/3-alt/01-example"
+import { Form as ApplyExample1 } from "src/validation/1-apply/1-imperative-final-form"
+import { Form as ApplyExample2 } from "src/validation/1-apply/2-either-first-attempt"
+import { Form as ApplyExample3 } from "src/validation/1-apply/3-either-second-attempt"
+import { Form as ApplyExample4 } from "src/validation/1-apply/4-custom-v-apply"
+import { Form as ApplyExample5 } from "src/validation/1-apply/5-final-applicative-validation"
+import { Form as ApplyExample6 } from "src/validation/1-apply/6-refactor-to-do-bonus"
+import { Form as ChainExample1 } from "src/validation/2-chain/1-sync-example"
+import { Form as ChainExample2 } from "src/validation/2-chain/2-async-example"
+import { Form as AltExample1 } from "src/validation/3-alt/1-simple"
+import { Form as AltExample2 } from "src/validation/3-alt/2-alt-validation"
 import styled from "styled-components"
 import { monoidJsx } from "src/validation/lib/Monoid"
 
@@ -20,11 +22,12 @@ const APPLY_COMPONENTS = [
   ApplyExample3,
   ApplyExample4,
   ApplyExample5,
+  ApplyExample6,
 ]
 
 const CHAIN_COMPONENTS = [ChainExample1, ChainExample2]
 
-const ALT_COMPONENTS = [AltExample1]
+const ALT_COMPONENTS = [AltExample1, AltExample2]
 
 export const Validation = () => (
   <>
@@ -40,19 +43,21 @@ export const Validation = () => (
       </nav>
       <nav>
         <h3>Chain/Monad</h3>
-        {intercalate(monoidJsx, readonlyArray)(<>|</>, [
+        {intercalate(monoidJsx, readonlyArray)(
+          <>|</>,
           CHAIN_COMPONENTS.map((_, ix) => (
             <NavLink to={`/validation/chain/${ix + 1}`}>{ix + 1}</NavLink>
           )),
-        ])}
+        )}
       </nav>
       <nav>
         <h3>Alt/Alternative</h3>
-        {intercalate(monoidJsx, readonlyArray)(<>|</>, [
+        {intercalate(monoidJsx, readonlyArray)(
+          <>|</>,
           ALT_COMPONENTS.map((_, ix) => (
             <NavLink to={`/validation/alt/${ix + 1}`}>{ix + 1}</NavLink>
           )),
-        ])}
+        )}
       </nav>
     </Header>
     <section>

@@ -6,8 +6,7 @@ import {
   PhoneNumber,
   useInput,
 } from "src/validation/lib/exports"
-import { absurd, pipe } from "fp-ts/lib/function"
-import * as Ap from "fp-ts/lib/Apply"
+import { pipe } from "fp-ts/lib/function"
 import * as E from "fp-ts/lib/Either"
 import * as RR from "fp-ts/lib/ReadonlyRecord"
 import * as RNEA from "fp-ts/lib/ReadonlyNonEmptyArray"
@@ -49,15 +48,24 @@ export const Form = () => {
         <Label error={errors.contact}>
           Contact
           <input value={contact} onChange={setContact} />
-          <span role="img" className="icon">
-            {pipe(
-              result,
-              E.fold(
-                () => "",
-                r => (PhoneNumber.is(r) ? "☎️" : "📭"),
-              ),
-            )}
-          </span>
+          {pipe(
+            result,
+            E.fold(
+              () => <></>,
+              r =>
+                pipe(
+                  PhoneNumber.is(r) ? (
+                    <span role="img" aria-label={"phone"}>
+                      ☎️
+                    </span>
+                  ) : (
+                    <span role="img" aria-label={"phone"}>
+                      ☎️
+                    </span>
+                  ),
+                ),
+            ),
+          )}
         </Label>
       </form>
       <div>

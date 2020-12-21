@@ -40,7 +40,7 @@ export const Form = () => {
       <p>
         Our reference form, which implements imperative-style validation. The
         example is based on{" "}
-        <a href="https://github.com/final-form/react-final-form/blob/master/docs/examples/record-level-validation.md">
+        <a href="https://codesandbox.io/s/github/final-form/react-final-form/tree/master/examples/record-level-validation">
           “Record Level Validation” example
         </a>{" "}
         from the React Final Form docs. We’ll endeavor to produce the same shape
