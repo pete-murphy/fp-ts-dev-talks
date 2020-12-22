@@ -3,21 +3,19 @@ import { Container, Label, useInput } from "src/validation/lib/exports"
 import * as E from "fp-ts/lib/Either"
 import { pipe, pipeable } from "fp-ts/lib/pipeable"
 import * as E_ from "src/validation/lib/Either.ext"
-import * as Sr from "src/validation/lib/FreeSemiring"
+import * as FS from "src/validation/lib/FreeSemiring"
 
 type FormState = string
 
 const validate = (state: FormState) =>
   pipe(
-    pipe(
-      E.fromPredicate(hasLengthBetween(8, 20), () => [
-        ["be between 8–20 characters long"],
+    E.fromPredicate(hasLengthBetween(8, 20), () => [
+      ["be between 8–20 characters long"],
+    ])(state),
+    V.apFirst(
+      E.fromPredicate(hasMixedCase, () => [
+        ["contain upper & lower-case letters"],
       ])(state),
-      V.apFirst(
-        E.fromPredicate(hasMixedCase, () => [
-          ["contain upper & lower-case letters"],
-        ])(state),
-      ),
     ),
     V.alt(() =>
       pipe(
@@ -69,7 +67,7 @@ export const Form = () => {
   )
 }
 
-const V = pipeable(E_.getSemiringValidation(Sr.getSemiring<string>()))
+const V = pipeable(E_.getSemiringValidation(FS.getSemiring<string>()))
 
 const hasLengthBetween = (min: number, max: number) => (str: string) =>
   str.length >= min && str.length <= max

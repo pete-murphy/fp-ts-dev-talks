@@ -1,10 +1,10 @@
 import * as RE from "fp-ts/lib/ReaderEither"
 import * as E from "fp-ts/lib/Either"
-import * as Sr from "src/validation/lib/FreeSemiring"
+import * as FS from "src/validation/lib/FreeSemiring"
 import * as RE_ from "src/validation/lib/ReaderEither.ext"
 import { pipeable } from "fp-ts/lib/pipeable"
 
-type Validator = RE.ReaderEither<string, Sr.FreeSemiring<string>, string>
+type Validator = RE.ReaderEither<string, FS.FreeSemiring<string>, string>
 
 export const hasLengthBetween = (min: number, max: number): Validator =>
   E.fromPredicate(
@@ -39,9 +39,9 @@ export const include = (x: string): Validator =>
     () => [[`include “${x}”`]],
   )
 
-const V = RE_.getSemiringReaderValidation(Sr.getSemiring<string>())
+const V = RE_.getSemiringReaderValidation(FS.getSemiring<string>())
 
-const { alt, apFirst } = pipeable<RE.URI, typeof V, Sr.FreeSemiring<string>>(V)
+const { alt, apFirst } = pipeable<RE.URI, typeof V, FS.FreeSemiring<string>>(V)
 
 // `or` is just a non-lazy version of `alt`
 export const or = (that: Validator) => alt(() => that)
