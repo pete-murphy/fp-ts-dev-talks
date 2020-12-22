@@ -16,7 +16,7 @@ import { Form as AltExample2 } from "src/validation/3-alt/2-alt-validation"
 import { Form as AltExample3 } from "src/validation/3-alt/3-semiring-validation"
 import { Form as AltExample4 } from "src/validation/3-alt/4-semiring-validation-dsl"
 import styled from "styled-components"
-import { monoidJsx } from "src/validation/lib/Monoid"
+import { monoidJSX } from "src/validation/lib/Monoid"
 
 const APPLY_COMPONENTS = [
   ApplyExample1,
@@ -36,7 +36,7 @@ export const Validation = () => (
     <Header>
       <nav>
         <h3>Apply/Applicative</h3>
-        {intercalate(monoidJsx, readonlyArray)(
+        {intercalate(monoidJSX, readonlyArray)(
           <>|</>,
           APPLY_COMPONENTS.map((_, ix) => (
             <NavLink to={`/validation/apply/${ix + 1}`}>{ix + 1}</NavLink>
@@ -45,7 +45,7 @@ export const Validation = () => (
       </nav>
       <nav>
         <h3>Chain/Monad</h3>
-        {intercalate(monoidJsx, readonlyArray)(
+        {intercalate(monoidJSX, readonlyArray)(
           <>|</>,
           CHAIN_COMPONENTS.map((_, ix) => (
             <NavLink to={`/validation/chain/${ix + 1}`}>{ix + 1}</NavLink>
@@ -54,7 +54,7 @@ export const Validation = () => (
       </nav>
       <nav>
         <h3>Alt/Alternative</h3>
-        {intercalate(monoidJsx, readonlyArray)(
+        {intercalate(monoidJSX, readonlyArray)(
           <>|</>,
           ALT_COMPONENTS.map((_, ix) => (
             <NavLink to={`/validation/alt/${ix + 1}`}>{ix + 1}</NavLink>

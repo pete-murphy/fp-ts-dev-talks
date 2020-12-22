@@ -1,6 +1,6 @@
 import * as RE from "fp-ts/lib/ReaderEither"
 import * as E from "fp-ts/lib/Either"
-import * as Sr from "src/validation/lib/Semiring"
+import * as Sr from "src/validation/lib/FreeSemiring"
 import * as RE_ from "src/validation/lib/ReaderEither.ext"
 import { pipeable } from "fp-ts/lib/pipeable"
 
@@ -27,10 +27,22 @@ export const hasSpecialChar = E.fromPredicate(
   () => [[`contain a special character`]],
 )
 
+export const beEqualTo = (x: string): Validator =>
+  E.fromPredicate(
+    (str: string) => x === str,
+    () => [[`be “${x}”`]],
+  )
+
+export const include = (x: string): Validator =>
+  E.fromPredicate(
+    (str: string) => str.includes(x),
+    () => [[`include “${x}”`]],
+  )
+
 const V = RE_.getSemiringReaderValidation(Sr.getSemiring<string>())
 
-export const { alt: or, apFirst: and } = pipeable<
-  RE.URI,
-  typeof V,
-  Sr.FreeSemiring<string>
->(V)
+const { alt, apFirst } = pipeable<RE.URI, typeof V, Sr.FreeSemiring<string>>(V)
+
+// `or` is just a non-lazy version of `alt`
+export const or = (that: Validator) => alt(() => that)
+export const and = apFirst

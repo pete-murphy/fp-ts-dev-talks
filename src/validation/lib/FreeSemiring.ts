@@ -1,7 +1,8 @@
 import { Applicative1, getApplicativeComposition } from "fp-ts/lib/Applicative"
 import { pipe } from "fp-ts/lib/function"
 import * as RA from "fp-ts/lib/ReadonlyArray"
-import { Semiring } from "fp-ts/lib/Semiring"
+import * as Sr from "fp-ts/lib/Semiring"
+import * as Eq from "fp-ts/lib/Eq"
 
 export type FreeSemiring<A> = ReadonlyArray<ReadonlyArray<A>>
 
@@ -15,7 +16,7 @@ declare module "fp-ts/lib/HKT" {
   }
 }
 
-export const getSemiring = <A>(): Semiring<FreeSemiring<A>> => ({
+export const getSemiring = <A>(): Sr.Semiring<FreeSemiring<A>> => ({
   add: (xss: FreeSemiring<A>, yss: FreeSemiring<A>): FreeSemiring<A> =>
     RA.getMonoid<ReadonlyArray<A>>().concat(xss, yss),
   mul: (xss: FreeSemiring<A>, yss: FreeSemiring<A>): FreeSemiring<A> =>
@@ -32,7 +33,10 @@ export const getSemiring = <A>(): Semiring<FreeSemiring<A>> => ({
   one: [[]],
 })
 
-export const freeSemiring: Applicative1<URI> = {
+export const getEq = <A>(eqA: Eq.Eq<A>): Eq.Eq<FreeSemiring<A>> =>
+  RA.getEq(RA.getEq(eqA))
+
+export const Applicative: Applicative1<URI> = {
   URI,
   ...getApplicativeComposition(RA.Applicative, RA.Applicative),
 }

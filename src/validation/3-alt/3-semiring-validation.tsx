@@ -3,7 +3,7 @@ import { Container, Label, useInput } from "src/validation/lib/exports"
 import * as E from "fp-ts/lib/Either"
 import { pipe, pipeable } from "fp-ts/lib/pipeable"
 import * as E_ from "src/validation/lib/Either.ext"
-import * as Sr from "src/validation/lib/Semiring"
+import * as Sr from "src/validation/lib/FreeSemiring"
 
 type FormState = string
 
@@ -11,7 +11,7 @@ const validate = (state: FormState) =>
   pipe(
     pipe(
       E.fromPredicate(hasLengthBetween(8, 20), () => [
-        ["be between 8–12 characters long"],
+        ["be between 8–20 characters long"],
       ])(state),
       V.apFirst(
         E.fromPredicate(hasMixedCase, () => [
@@ -51,7 +51,7 @@ export const Form = () => {
     <Container>
       <p>
         Things get interesting with Semiring. Let's say a password must have
-        between 8–12 characters and include upper and lower-case letters, unless
+        between 8–20 characters and include upper and lower-case letters, unless
         it has a special character, in which case it doesn't need mixed case and
         it can be between 5–10 characters long. All passwords must contain a
         number.
