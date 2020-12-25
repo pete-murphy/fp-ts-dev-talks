@@ -59,8 +59,8 @@ export const Form = () => {
                       ☎️
                     </span>
                   ) : (
-                    <span role="img" aria-label={"phone"}>
-                      ☎️
+                    <span role="img" aria-label={"email"}>
+                      ️📭
                     </span>
                   ),
                 ),
