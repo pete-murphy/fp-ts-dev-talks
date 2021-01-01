@@ -4,33 +4,36 @@ import * as E from "fp-ts/lib/Either"
 import { pipe, pipeable } from "fp-ts/lib/pipeable"
 import * as E_ from "src/validation/lib/Either.ext"
 import * as FS from "src/validation/lib/FreeSemiring"
+import { eqString } from "fp-ts/lib/Eq"
 
 type FormState = string
 
 const validate = (state: FormState) =>
   pipe(
-    E.fromPredicate(hasLengthBetween(8, 20), () => [
-      ["be between 8–20 characters long"],
-    ])(state),
+    E.fromPredicate(hasLengthBetween(8, 20), () =>
+      FS.free("be between 8–20 characters long"),
+    )(state),
     V.apFirst(
-      E.fromPredicate(hasMixedCase, () => [
-        ["contain upper & lower-case letters"],
-      ])(state),
+      E.fromPredicate(hasMixedCase, () =>
+        FS.free("contain upper & lower-case letters"),
+      )(state),
     ),
     V.alt(() =>
       pipe(
-        E.fromPredicate(hasSpecialChar, () => [
-          ["contain a special character"],
-        ])(state),
+        E.fromPredicate(hasSpecialChar, () =>
+          FS.free("contain a special character"),
+        )(state),
         V.apFirst(
-          E.fromPredicate(hasLengthBetween(5, 10), () => [
-            ["be between 5–10 characters long"],
-          ])(state),
+          E.fromPredicate(hasLengthBetween(5, 10), () =>
+            FS.free("be between 5–10 characters long"),
+          )(state),
         ),
       ),
     ),
-    V.apFirst(E.fromPredicate(hasNumber, () => [["contain a number"]])(state)),
-    // V.alt(() => E.fromPredicate(beEqualTo("abc"), () => [["be “abc”"]])(state)),
+    V.apFirst(
+      E.fromPredicate(hasNumber, () => FS.free("contain a number"))(state),
+    ),
+    // V.alt(() => E.fromPredicate(beEqualTo("abc"), () => FS.free("be “abc”"))(state)),
   )
 
 export const Form = () => {
@@ -40,7 +43,8 @@ export const Form = () => {
   const error = pipe(
     result,
     E.fold(
-      xss => `Password must ${xss.map(xs => xs.join(" AND ")).join(" OR ")}`,
+      xss =>
+        `Password must ${[...xss].map(xs => xs.join(" AND ")).join(" OR ")}`,
       () => undefined,
     ),
   )
@@ -67,7 +71,7 @@ export const Form = () => {
   )
 }
 
-const V = pipeable(E_.getSemiringValidation(FS.getSemiring<string>()))
+const V = pipeable(E_.getSemiringValidation(FS.getSemiring<string>(eqString)))
 
 const hasLengthBetween = (min: number, max: number) => (str: string) =>
   str.length >= min && str.length <= max

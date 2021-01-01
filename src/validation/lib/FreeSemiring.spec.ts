@@ -4,13 +4,17 @@ import * as Eq from "fp-ts/lib/Eq"
 
 import * as FS from "src/validation/lib/FreeSemiring"
 
-// @TODO - Pete Murphy 2020-12-22 - Currently failing
+const arbitraryFreeSemiring: <A>(
+  arb: fc.Arbitrary<A>,
+) => fc.Arbitrary<FS.FreeSemiring<A>> = arb =>
+  fc.set(fc.array(arb)).map(xs => new Set(xs))
+
 describe("FreeSemiring", () => {
   it("should be a lawful Semiring", () => {
     laws.semiring(
-      FS.getSemiring<string>(),
+      FS.getSemiring<string>(Eq.eqString),
       FS.getEq(Eq.eqString),
-      fc.array(fc.array(fc.string())),
+      arbitraryFreeSemiring(fc.string()),
     )
   })
 })

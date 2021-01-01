@@ -50,7 +50,7 @@ export const Form = () => {
             xss => (
               <span className="errors-lists">
                 Password must:{" "}
-                {xss.map((xs, i) => (
+                {[...xss].map((xs, i) => (
                   <>
                     {i !== 0 && "Or:"}
                     <ul>

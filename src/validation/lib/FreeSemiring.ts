@@ -1,10 +1,10 @@
-import { Applicative1, getApplicativeComposition } from "fp-ts/lib/Applicative"
-import { pipe } from "fp-ts/lib/function"
+import { flow, pipe } from "fp-ts/lib/function"
 import * as RA from "fp-ts/lib/ReadonlyArray"
+import * as RS from "fp-ts/lib/ReadonlySet"
 import * as Sr from "fp-ts/lib/Semiring"
 import * as Eq from "fp-ts/lib/Eq"
 
-export type FreeSemiring<A> = ReadonlyArray<ReadonlyArray<A>>
+export type FreeSemiring<A> = ReadonlySet<ReadonlyArray<A>>
 
 export const URI = "FreeSemiring"
 
@@ -16,27 +16,26 @@ declare module "fp-ts/lib/HKT" {
   }
 }
 
-export const getSemiring = <A>(): Sr.Semiring<FreeSemiring<A>> => ({
+export const getSemiring = <A>(
+  eqA: Eq.Eq<A>,
+): Sr.Semiring<FreeSemiring<A>> => ({
   add: (xss: FreeSemiring<A>, yss: FreeSemiring<A>): FreeSemiring<A> =>
-    RA.getMonoid<ReadonlyArray<A>>().concat(xss, yss),
+    RS.getUnionMonoid<ReadonlyArray<A>>(RA.getEq(eqA)).concat(xss, yss),
   mul: (xss: FreeSemiring<A>, yss: FreeSemiring<A>): FreeSemiring<A> =>
     pipe(
       xss,
-      RA.chain(xs =>
+      RS.chain(RA.getEq(eqA))(xs =>
         pipe(
           yss,
-          RA.map(ys => RA.getMonoid<A>().concat(xs, ys)),
+          RS.map(RA.getEq(eqA))(ys => RA.getMonoid<A>().concat(xs, ys)),
         ),
       ),
     ),
-  zero: [],
-  one: [[]],
+  zero: RS.empty,
+  one: RS.singleton([]),
 })
 
 export const getEq = <A>(eqA: Eq.Eq<A>): Eq.Eq<FreeSemiring<A>> =>
-  RA.getEq(RA.getEq(eqA))
+  RS.getEq(RA.getEq(eqA))
 
-export const Applicative: Applicative1<URI> = {
-  URI,
-  ...getApplicativeComposition(RA.Applicative, RA.Applicative),
-}
+export const free: <A>(a: A) => FreeSemiring<A> = flow(RA.of, RS.singleton)
