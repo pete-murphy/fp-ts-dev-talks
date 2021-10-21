@@ -1,43 +1,59 @@
 import React from "react"
 import {
   Container,
-  Email,
+  isValidEmail,
+  isValidPhoneNumber,
   Label,
-  PhoneNumber,
   useInput,
 } from "src/validation/lib/exports"
-import { pipe } from "fp-ts/lib/function"
+import { flow, pipe } from "fp-ts/lib/function"
 import * as E from "fp-ts/lib/Either"
 import * as RR from "fp-ts/lib/ReadonlyRecord"
 import * as RNEA from "fp-ts/lib/ReadonlyNonEmptyArray"
 import * as Sg from "fp-ts/lib/Semigroup"
-import { pipeable } from "fp-ts/lib/pipeable"
+import * as Str from "fp-ts/lib/string"
+import { makeMatchers } from "ts-adt/MakeADT"
+const [match] = makeMatchers("tag")
 
 type FormState = {
   contact: string
 }
 
-// Can't refine the type without defining our own `altW`
-type ValidatedFormState = string
+type Email = { readonly tag: "email"; readonly content: string }
+type PhoneNumber = {
+  readonly tag: "phoneNumber"
+  readonly content: string
+}
+const email = (content: string): ValidatedFormState => ({
+  tag: "email",
+  content,
+})
+const phoneNumber = (content: string): ValidatedFormState => ({
+  tag: "phoneNumber",
+  content,
+})
+type ValidatedFormState = Email | PhoneNumber
 
-const isPhoneNumber = (str: string) => (PhoneNumber.is(str) ? true : false)
-const isEmail = (str: string) => (Email.is(str) ? true : false)
-
-type Err = [keyof FormState, string]
+type Err = readonly [keyof FormState, string]
 type Errs = RNEA.ReadonlyNonEmptyArray<Err>
+
+const validateEmail = flow(
+  E.fromPredicate(isValidEmail, (): Errs => [["contact", "Not a valid email"]]),
+  E.map(email),
+)
+
+const validatePhoneNumber = flow(
+  E.fromPredicate(
+    isValidPhoneNumber,
+    (): Errs => [["contact", "Not a valid phone number"]],
+  ),
+  E.map(phoneNumber),
+)
 
 const validate = (state: FormState) =>
   pipe(
-    E.fromPredicate(
-      isPhoneNumber,
-      (): Errs => [["contact", "Not a valid email"]],
-    )(state.contact),
-    V.alt(() =>
-      E.fromPredicate(
-        isEmail,
-        (): Errs => [["contact", "Not a valid phone number"]],
-      )(state.contact),
-    ),
+    validateEmail(state.contact),
+    V_altW(() => validatePhoneNumber(state.contact)),
   )
 
 export const Form = () => {
@@ -60,9 +76,9 @@ export const Form = () => {
           <span role="img" className="icon">
             {pipe(
               result,
-              E.fold(
+              E.match(
                 () => "",
-                r => (PhoneNumber.is(r) ? "☎️" : "📭"),
+                match({ email: () => "✉️", phoneNumber: () => "☎️" }),
               ),
             )}
           </span>
@@ -75,17 +91,18 @@ export const Form = () => {
   )
 }
 
-const V = pipeable(E.getAltValidation(RNEA.getSemigroup<Err>()))
+const V = E.getAltValidation(RNEA.getSemigroup<Err>())
 
-const semigroupCommaSeparatedStrings: Sg.Semigroup<string> = {
-  concat: (x, y) => `${x}, ${y}`,
-}
+export const V_altW: <B>(
+  that: () => E.Either<Errs, B>,
+) => <A>(fa: E.Either<Errs, A>) => E.Either<Errs, A | B> = that => fa =>
+  V.alt(fa, that as any)
 
 type FinalFormValidationErrors = Partial<{ [K in keyof FormState]: string }>
 
 const toFinalFormValidationErrors: (
   result: E.Either<Errs, ValidatedFormState>,
 ) => FinalFormValidationErrors = E.fold(
-  RR.fromFoldable(semigroupCommaSeparatedStrings, RNEA.readonlyNonEmptyArray),
+  RR.fromFoldable(Sg.intercalate(", ")(Str.Semigroup), RNEA.Foldable),
   () => RR.empty,
 )

@@ -80,6 +80,6 @@ type FinalFormValidationErrors = Partial<{ [K in keyof FormState]: string }>
 const toFinalFormValidationErrors: (
   result: E.Either<Errs, ValidatedFormState>,
 ) => FinalFormValidationErrors = E.fold(
-  RR.fromFoldable(Sg.getFirstSemigroup<string>(), RNEA.readonlyNonEmptyArray),
+  RR.fromFoldable(Sg.first<string>(), RNEA.readonlyNonEmptyArray),
   () => RR.empty,
 )

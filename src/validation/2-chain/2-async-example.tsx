@@ -22,7 +22,7 @@ type ValidatedFormState = {
   endDate: string
 }
 
-type Err = [keyof FormState, string]
+type Err = readonly [keyof FormState, string]
 type Errs = RNEA.ReadonlyNonEmptyArray<Err>
 
 const validate = (state: FormState): TE.TaskEither<Errs, ValidatedFormState> =>
@@ -64,7 +64,7 @@ const validate = (state: FormState): TE.TaskEither<Errs, ValidatedFormState> =>
     // Pretend there could be some further validation performed by backend at
     // this point.
     TE.chain(({ startDate, endDate }) =>
-      TE.fromTask<Errs, ValidatedFormState>(
+      TE.fromTask<ValidatedFormState, Errs>(
         // Simulating API call
         T.delay(1000)(T.of({ startDate, endDate })),
       ),
