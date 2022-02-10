@@ -21,7 +21,7 @@
     "io-ts-types": "^0.5.12",
     "monocle-ts": "^2.3.3",
     "newtype-ts": "^0.3.4",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router": "^5.1.2",
